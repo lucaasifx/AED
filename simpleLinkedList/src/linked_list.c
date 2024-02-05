@@ -69,13 +69,13 @@ void displayList(linkedList *head_list) {
     if (emptyList(head_list))
         puts("List is empty");
     else {
-        printf("Nodes: [");
+        printf("Nodes: ");
         Node *current = head_list->head;
         while (current) {
-            printf(" %d ->", current->key);
+            printf("[ %d | * ] ->", current->key);
             current = current->next;
         }
-        printf(" NULL ]\n");
+        printf(" NULL\n");
     }
 }
 
@@ -101,7 +101,7 @@ void delNode(linkedList *head_list, int key) {
             backup = backup->next;
         }
         if(!prev->next)
-            puts("Key is not in list");
+            puts("Key isn't in list");
         else {
             prev->next = backup->next;
             if (!prev->next)
@@ -113,17 +113,34 @@ void delNode(linkedList *head_list, int key) {
 }
 
 void delAllnodes(linkedList *head_list, int key) {
+    bool keyfound = false;
     if(emptyList(head_list))
         puts("List is empty!");
     else {
-        if(key == head_list->head) {
+        if(key == head_list->head->key) {
             delFirst(head_list);
             head_list->quantNodes--;
+            keyfound = true;
         }
-        
+        Node *backup = head_list->head->next, *prev = head_list->head;
+        while(backup) {
+            if(backup->key == key) {
+                keyfound = true;
+                prev->next = backup->next;
 
-
-
+                if(backup == head_list->tail)
+                    head_list->tail = prev;
+                free(backup);
+                backup = prev->next;
+                head_list->quantNodes--;
+            }
+            else {
+                prev = backup;
+                backup = backup->next;
+            }
+        }
+        if(!keyfound)
+            puts("Key isn't in list.");
     }
 }
 

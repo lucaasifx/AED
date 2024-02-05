@@ -11,7 +11,8 @@ Node *createNode(int);
 void appendFirst(linkedList *, int);
 void appendEnd(linkedList *, int);
 void delNode(linkedList *, int);
+void delAllnodes(linkedList *, int key);
 int quantNodes(linkedList *);
 void displayList(linkedList *);
-void deallocateList(linkedList *);
+void deallocateList(linkedList **);
 #endif

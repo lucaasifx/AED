@@ -6,35 +6,48 @@ int main(int argc, char *argv[]) {
 
     linkedList *l = initializeList();
     displayList(l);
+
     appendFirst(l, 5);
     displayList(l);
+    puts("");
+
     appendFirst(l, 4);
     displayList(l);
+    puts("");
 
     appendFirst(l, 3);
+    displayList(l);
+    puts("");
+
     appendFirst(l, 3);
     displayList(l);
-    delNode(l, 3);
+    puts("");
 
     appendFirst(l, 2);
     displayList(l);
+    puts("");
 
     appendFirst(l, 1);
     displayList(l);
+    puts("");
 
     appendEnd(l, 8);
     displayList(l);
+    puts("");
 
-    delNode(l, 8);
-    displayList(l);
     appendEnd(l, 4);
+    displayList(l);
+    puts("");
 
     appendEnd(l, 2);
     displayList(l);
-    delNode(l, 4);
-    printf("Num of nodes = %d\n", quantNodes(l));
-    delNode(l, 8);
+    puts("");
+    
+    puts(" *********** Before *************");
     displayList(l);
-    deallocateList(l);
+    puts(" *********** After *************");
+    delAllnodes(l, 4);
+    displayList(l);
+    deallocateList(&l);
 
 }
