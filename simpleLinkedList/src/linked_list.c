@@ -85,14 +85,15 @@ void delFirst(linkedList *head_list) {
     free(backup);
     if(!head_list->head)
         head_list->tail = NULL;
-    head_list->quantNodes--;
 }
 
 void delNode(linkedList *head_list, int key) {
     if (emptyList(head_list)) 
         puts("List is empty");
-    else if (key == head_list->head->key)
+    else if (key == head_list->head->key) {
         delFirst(head_list);
+        head_list->quantNodes--;
+    }
     else {
         Node *backup = head_list->head->next, *prev = head_list->head;
         while(backup && backup->key != key) {
@@ -113,43 +114,33 @@ void delNode(linkedList *head_list, int key) {
 
 void delAllnodes(linkedList *head_list, int key) {
     if(emptyList(head_list))
-        puts("List is empty");
+        puts("List is empty!");
     else {
-        if(key == head_list->head->key)
+        if(key == head_list->head) {
             delFirst(head_list);
-        Node *backup = head_list->head->next, *prev = head_list->head;
-        while(backup) {
-            if(backup->key == key) {
-                prev->next = backup->next;
-                free(backup);
-                backup = prev->next;
-            }
-            prev = backup;
-            backup = backup->next;
+            head_list->quantNodes--;
         }
-    }
+        
 
+
+
+    }
 }
 
 int quantNodes(linkedList *head_list) {
     return head_list->quantNodes;
 }
 
-void deallocateList(linkedList *head_list) {
-    if (emptyList(head_list))
-        free(head_list);
-    else {
-        Node *current = head_list->head, *backup = NULL;
-        while (current) {
-            backup = current->next;
-            free(current);
-            current = backup;
-        }
-        head_list->head = NULL;
-        head_list->tail = NULL;
-        head_list->quantNodes = 0;
-        free(head_list);
+void deallocateList(linkedList **head_list) {
+    linkedList *l = *head_list;
+    Node *backup = l->head, *aux = NULL;
+    while(backup) {
+        aux = backup;
+        backup = backup->next;
+        free(aux);
     }
+    free(l);
+    *head_list = NULL;
 }
 
 
