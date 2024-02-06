@@ -7,13 +7,15 @@
 
 int main(int argc, char *argv[]) {
     Dlist *l = initializeList();
-    appendFirst(l, 2);
-    appendFirst(l, 4);
+    appendLast(l, 10);
+    appendLast(l, 2);
+    appendLast(l, 4);
+    appendLast(l, 7);
     LRdisplayList(l);
     RLdisplayList(l);
-
-
-
+    delNode(l, 7);
+    LRdisplayList(l);
+    RLdisplayList(l);
 
     if(!l || emptyList(l))
         puts("It's works");

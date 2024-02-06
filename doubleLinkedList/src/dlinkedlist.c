@@ -33,17 +33,16 @@ bool emptyList(const Dlist *headList) {
     return !headList->quantNodes;
 }
 
-Node *createNode() {
+Node *createNode(int key) {
     Node *n = (Node *) malloc(sizeof(Node));
-    n->key = 0;
+    n->key = key;
     n->next = NULL;
     n->prev = NULL;
     return n;
 }
 
 void appendFirst(Dlist *headList, int key) {
-    Node *n = createNode();
-    n->key = key;
+    Node *n = createNode(key);
     n->next = headList->head;
 
     if(emptyList(headList))
@@ -55,18 +54,64 @@ void appendFirst(Dlist *headList, int key) {
     headList->quantNodes++;
 }
 
+void appendLast(Dlist *headList, int key) {
+    if(emptyList(headList))
+        appendFirst(headList, key);
+    else {
+        Node *n = createNode(key);
+        n->prev = headList->tail;
+        headList->tail = headList->tail->next = n;
+        headList->quantNodes++;
+    }
+}
+
+void delFirst(Dlist *headList) {
+    Node *backup = headList->head;
+    headList->head = backup->next;
+    if(headList->head)
+        headList->head->prev = NULL;
+    else
+        headList->tail = NULL;
+    free(backup);
+    headList->quantNodes--;
+}
+
+void delNode(Dlist *headList, int key) {
+    if(emptyList(headList))
+        puts("List is empty.");
+    else if(key == headList->head->key)
+        delFirst(headList);
+    else {
+        Node *backup = headList->head, *prev = NULL;
+        while(backup && backup->key != key) {
+            prev = backup;
+            backup = backup->next;
+        }
+        if(!backup)
+            puts("Key isn't in list.");
+        else {
+            prev->next = backup->next;
+            if(!prev->next)
+                headList->tail = prev;
+            else
+                prev->next->prev = prev;
+            free(backup);
+            headList->quantNodes--;
+        }
+    }
+}
 
 void LRdisplayList(const Dlist *headList) {
     if(emptyList(headList))
         puts("List is empty.");
     else {
-        printf("Nodes: ");
+        printf("LRNodes: { ");
         Node *backup = headList->head;
         while(backup) {
-            printf("[%d|*] ->", backup->key);
+            printf("%d, ", backup->key);
             backup = backup->next;
         }
-        puts("NULL");
+        puts("NULL }");
     }
 }
 
@@ -74,21 +119,19 @@ void RLdisplayList(const Dlist *headList) {
     if(emptyList(headList))
         puts("List is empty.");
     else {
-        printf("Nodes: ");
+        printf("RLNodes: { ");
         Node *backup = headList->tail;
         while(backup) {
-            printf("[%d|*] ->", backup->key);
+            printf("%d, ", backup->key);
             backup = backup->prev;
         }
-        puts("NULL");
+        puts("NULL }");
     }
 }
 
 
 void deallocList(Dlist **headList) {
-    if(emptyList(*headList))
-        puts("List is empty!");
-    else {
+    if(!emptyList(*headList)){
         Dlist *list = *headList;
         Node *backup = list->head, *prev = NULL;
         while (backup) {
@@ -97,7 +140,7 @@ void deallocList(Dlist **headList) {
             free(prev);
         }
         free(list);
-        *headList = NULL;
     }
+    *headList = NULL;
 }
 

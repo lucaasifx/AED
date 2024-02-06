@@ -10,12 +10,13 @@ typedef struct list Dlist;
 
 Dlist *initializeList();
 bool emptyList(const Dlist *);
-Node *createNode();
+Node *createNode(int);
 void appendFirst(Dlist *, int);
+void appendLast(Dlist *, int);
+void delNode(Dlist *, int);
 void LRdisplayList(const Dlist *);
 void RLdisplayList(const Dlist *);
 void deallocList(Dlist **);
-
 
 
 #endif
