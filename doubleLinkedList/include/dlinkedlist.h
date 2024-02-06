@@ -9,9 +9,11 @@ typedef struct list Dlist;
 
 
 Dlist *initializeList();
-bool emptyList(Dlist *);
+bool emptyList(const Dlist *);
 Node *createNode();
 void appendFirst(Dlist *, int);
+void LRdisplayList(const Dlist *);
+void RLdisplayList(const Dlist *);
 void deallocList(Dlist **);
 
 

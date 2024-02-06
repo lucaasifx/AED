@@ -26,9 +26,10 @@ Dlist *initializeList() {
     }
     headList->head = NULL;
     headList->tail = NULL;
-    headList->quantNodes = 0; 
+    headList->quantNodes = 0;
+    return headList;
 }
-bool emptyList(Dlist *headList) {
+bool emptyList(const Dlist *headList) {
     return !headList->quantNodes;
 }
 
@@ -42,6 +43,7 @@ Node *createNode() {
 
 void appendFirst(Dlist *headList, int key) {
     Node *n = createNode();
+    n->key = key;
     n->next = headList->head;
 
     if(emptyList(headList))
@@ -51,6 +53,35 @@ void appendFirst(Dlist *headList, int key) {
     
     headList->head = n;
     headList->quantNodes++;
+}
+
+
+void LRdisplayList(const Dlist *headList) {
+    if(emptyList(headList))
+        puts("List is empty.");
+    else {
+        printf("Nodes: ");
+        Node *backup = headList->head;
+        while(backup) {
+            printf("[%d|*] ->", backup->key);
+            backup = backup->next;
+        }
+        puts("NULL");
+    }
+}
+
+void RLdisplayList(const Dlist *headList) {
+    if(emptyList(headList))
+        puts("List is empty.");
+    else {
+        printf("Nodes: ");
+        Node *backup = headList->tail;
+        while(backup) {
+            printf("[%d|*] ->", backup->key);
+            backup = backup->prev;
+        }
+        puts("NULL");
+    }
 }
 
 
@@ -69,3 +100,4 @@ void deallocList(Dlist **headList) {
         *headList = NULL;
     }
 }
+
