@@ -8,6 +8,7 @@ int main(int argc, char *argv[]) {
     displayList(l);
 
     appendFirst(l, 5);
+    printf("%d\n", l->head->key);
     displayList(l);
     puts("");
 
